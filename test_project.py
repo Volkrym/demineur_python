@@ -146,14 +146,40 @@ def fill_in_board(reference_board):
                 reference_board[li][co] = 0
     #print_board(reference_board)
 
-def propagate_click(game_board, reference_board, pos_x , pos_y):
-    if reference_board[pos_x][pos_y] == 0 and game_board[pos_x][pos_y] != 0:
-        voisins_click = get_neighbors(reference_board, pos_x, pos_y)
-        game_board[pos_x][pos_y] = reference_board[pos_x][pos_y]
-        longueur = len(voisins_click)
-        for index in range(longueur):
-            x, y = voisins_click[index][0], voisins_click[index][1]
-            reference_board[x][y]
+
+
+# def propagate_click(game_board, reference_board, pos_x , pos_y):
+    
+#     if reference_board[pos_x][pos_y] == 0 :
+        
+#         # Le problème vient de cet appel                👇     👇
+#         # Récursivement il ne kiffe pas (trop d'appel)
+#         voisins_click = get_neighbors(reference_board, pos_x, pos_y)
+        
+#         game_board[pos_x][pos_y] = reference_board[pos_x][pos_y]
+        
+#         longueur = len(voisins_click)
+        
+#         for index in range(longueur):
+#             x, y = voisins_click[index][0], voisins_click[index][1]
+#             while reference_board[x][y] == 0:
+#                 propagate_click(game_board, reference_board, x, y)
+
+
+
+def propagate_click(game_board, reference_board, pos_x, pos_y):
+    # Pour le premier print
+    game_board[pos_x][pos_y] = reference_board[pos_x][pos_y]
+    
+    # Propage le click 
+    neighbors = get_neighbors(reference_board, pos_x, pos_y)
+    for x, y in neighbors:
+        if game_board[x][y] == ".":
+            game_board[x][y] = reference_board[x][y]
+            if reference_board[x][y] == "0":
+                propagate_click(game_board, reference_board, x, y)
+            
+
 
 
 ###################################################
